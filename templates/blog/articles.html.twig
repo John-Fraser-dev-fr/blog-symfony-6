@@ -2,6 +2,18 @@
 
 {% block body %}
 
-    <h3>Voici tous les articles:</h3>
+    <h3 class="mb-5">Voici tous les articles:</h3>
+
+    {% for articles in articles %}
+
+        <div class="container mb-5 ">
+            <h5>{{ articles.titre }}</h5>
+            <img src={{ articles.image }}>
+            <div>{{ articles.description }}</div>
+            <a class="btn btn-primary" href="{{path('article', {id: articles.id})}}">Lire la suite</a>
+        </div>
+
+    {% endfor %}
+
 
 {% endblock body %}
