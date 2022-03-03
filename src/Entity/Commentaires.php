@@ -13,38 +13,20 @@ class Commentaires
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $sujet;
-
     #[ORM\Column(type: 'text')]
     private $contenu;
 
-    #[ORM\Column(type: 'datetime')]
-    private $date;
-
-    #[ORM\ManyToOne(targetEntity: Articles::class, inversedBy: 'commentaires')]
+    #[ORM\ManyToOne(targetEntity: Articles::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private $id_article;
+    private $article;
 
-    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'commentaire')]
+    #[ORM\ManyToOne(targetEntity: Users::class, inversedBy: 'user')]
     #[ORM\JoinColumn(nullable: false)]
     private $users;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSujet(): ?string
-    {
-        return $this->sujet;
-    }
-
-    public function setSujet(string $sujet): self
-    {
-        $this->sujet = $sujet;
-
-        return $this;
     }
 
     public function getContenu(): ?string
@@ -59,26 +41,14 @@ class Commentaires
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getArticle(): ?Articles
     {
-        return $this->date;
+        return $this->article;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setArticle(?Articles $article): self
     {
-        $this->date = $date;
-
-        return $this;
-    }
-
-    public function getIdArticle(): ?Articles
-    {
-        return $this->id_article;
-    }
-
-    public function setIdArticle(?Articles $id_article): self
-    {
-        $this->id_article = $id_article;
+        $this->article = $article;
 
         return $this;
     }

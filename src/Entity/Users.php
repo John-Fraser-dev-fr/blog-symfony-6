@@ -2,13 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+
+
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
-class Users
+class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -28,11 +32,11 @@ class Users
     private $password;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Commentaires::class, orphanRemoval: true)]
-    private $commentaire;
+    private $user;
 
     public function __construct()
     {
-        $this->commentaire = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,30 +92,61 @@ class Users
         return $this;
     }
 
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function getSalt()
+    {
+        
+    }
+
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+   
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    public function getUsername(): string
+    {
+        return (string) $this->email;
+    }
+
     /**
      * @return Collection<int, Commentaires>
      */
-    public function getCommentaire(): Collection
+    public function getUser(): Collection
     {
-        return $this->commentaire;
+        return $this->user;
     }
 
-    public function addCommentaire(Commentaires $commentaire): self
+    public function addUser(Commentaires $user): self
     {
-        if (!$this->commentaire->contains($commentaire)) {
-            $this->commentaire[] = $commentaire;
-            $commentaire->setUsers($this);
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+            $user->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeCommentaire(Commentaires $commentaire): self
+    public function removeUser(Commentaires $user): self
     {
-        if ($this->commentaire->removeElement($commentaire)) {
+        if ($this->user->removeElement($user)) {
             // set the owning side to null (unless already changed)
-            if ($commentaire->getUsers() === $this) {
-                $commentaire->setUsers(null);
+            if ($user->getUsers() === $this) {
+                $user->setUsers(null);
             }
         }
 

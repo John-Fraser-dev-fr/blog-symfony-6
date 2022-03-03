@@ -27,13 +27,7 @@ class Articles
     #[ORM\Column(type: 'datetime')]
     private $date;
 
-    #[ORM\OneToMany(mappedBy: 'id_article', targetEntity: Commentaires::class, orphanRemoval: true)]
-    private $commentaires;
-
-    public function __construct()
-    {
-        $this->commentaires = new ArrayCollection();
-    }
+   
 
     public function getId(): ?int
     {
@@ -88,33 +82,5 @@ class Articles
         return $this;
     }
 
-    /**
-     * @return Collection<int, Commentaires>
-     */
-    public function getCommentaires(): Collection
-    {
-        return $this->commentaires;
-    }
-
-    public function addCommentaire(Commentaires $commentaire): self
-    {
-        if (!$this->commentaires->contains($commentaire)) {
-            $this->commentaires[] = $commentaire;
-            $commentaire->setIdArticle($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentaire(Commentaires $commentaire): self
-    {
-        if ($this->commentaires->removeElement($commentaire)) {
-            // set the owning side to null (unless already changed)
-            if ($commentaire->getIdArticle() === $this) {
-                $commentaire->setIdArticle(null);
-            }
-        }
-
-        return $this;
-    }
+    
 }
