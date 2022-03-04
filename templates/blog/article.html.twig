@@ -6,4 +6,21 @@
     <img src={{ article.image }}>
     <p>{{article.description}}</p>
 
+<pre>
+    {{ dump(com.contenu) }}
+</pre>
+
+    
+
+
+     {{ form_start(formCom) }}
+   
+
+    <div class="row">
+        <div class="col">
+            {{ form(formCom) }}
+        </div>
+    </div>
+    {{ form_end(formCom) }}
+
 {% endblock body %}

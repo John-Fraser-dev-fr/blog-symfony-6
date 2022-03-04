@@ -62,4 +62,10 @@ class UsersController extends AbstractController
             'error' => $error
         ]);
     }
+
+    #[Route('/deconnexion', name:'deconnexion')]
+    public function deconnexion()
+    {
+        return $this->redirectToRoute('app_blog');
+    }
 }
