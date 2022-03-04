@@ -1,4 +1,5 @@
 security:
+    
     enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
@@ -20,7 +21,12 @@ security:
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            
+            form_login:
+                login_path: connexion
+                check_path: connexion
+                enable_csrf: true
     
  
 

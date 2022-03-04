@@ -4,13 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\UsersType;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UsersController extends AbstractController
 {
@@ -41,9 +41,25 @@ class UsersController extends AbstractController
         }
 
 
-        return $this->render('users/index.html.twig', [
+        return $this->render('users/inscription.html.twig', [
             'controller_name' => 'UsersController',
             'form' => $form->createView(),
+        ]);
+    }
+
+
+
+    #[Route('/connexion', name:'connexion')]
+    public function connexion(AuthenticationUtils $authenticationUtils): Response
+    {
+
+        //Obtenir une erreur de connexion s'il y en a une
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+    
+
+        return $this->render('users/connexion.html.twig', [
+            'error' => $error
         ]);
     }
 }
