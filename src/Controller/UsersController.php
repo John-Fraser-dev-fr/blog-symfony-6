@@ -56,10 +56,14 @@ class UsersController extends AbstractController
         //Obtenir une erreur de connexion s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
 
+        //Dernier nom entré par l'utilisateur
+        $lastUsername = $authenticationUtils->getLastUsername();
+
     
 
         return $this->render('users/connexion.html.twig', [
-            'error' => $error
+            'error' => $error,
+            'lastUsername' => $lastUsername
         ]);
     }
 

@@ -8,10 +8,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[UniqueEntity('email', message:'Cet adresse email existe déjà !')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -20,15 +23,27 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        min: 3, 
+        minMessage:'Votre nom doit faire au minimum {{ limit }} caractères !')]
     private $nom;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        min: 3, 
+        minMessage:'Votre nom doit faire au minimum {{ limit }} caractères !')]
     private $prenom;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Email(
+        message: 'Votre adresse email n\'est pas valide !',
+    )]
     private $email;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\Length(
+        min: 7, 
+        minMessage:'Votre mot de passe doit faire au minimum {{ limit }} caractères !')]
     private $password;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Commentaires::class, orphanRemoval: true)]

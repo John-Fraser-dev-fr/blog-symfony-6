@@ -54,9 +54,12 @@ class BlogController extends AbstractController
         {
             //Récupération de l'id user
             $user = $this->getUser();
+           
 
             $com->setArticle($article)
-                ->setUsers($user);
+                ->setUsers($user)
+                ->setDate(new \DateTime());
+
 
             //Enregistrement en BDD
             $entityManager->persist($com);
